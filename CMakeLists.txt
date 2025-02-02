@@ -15,8 +15,11 @@ project(vmecpp C CXX)
 find_package(HDF5 REQUIRED COMPONENTS C CXX)
 include_directories(${HDF5_INCLUDE_DIRS} ${HDF5_CXX_INCLUDE_DIRS})
 
-find_package (netCDF REQUIRED)
-include_directories(${NETCDF_INCLUDES})
+# Try to find netCDF using pkg-config if CMake's find_package fails
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(NETCDF REQUIRED netcdf)
+include_directories(${NETCDF_INCLUDE_DIRS})
+link_directories(${NETCDF_LIBRARY_DIRS})
 
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
